@@ -10,6 +10,8 @@
     <string name="select_department_label">Select Department</string>
     <string name="employee_salary_placeholder">Enter Employee Salary</string>
     <string name="add_employee_button_text">Add employee</string>
+    <string name="update_label">Update the employee</string>
+    <string name="update_employee_btn_text">Update employee</string>
 
     <string-array name="departments">
         <item>Technical</item>

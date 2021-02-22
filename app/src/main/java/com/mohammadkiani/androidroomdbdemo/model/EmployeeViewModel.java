@@ -11,8 +11,8 @@ import com.mohammadkiani.androidroomdbdemo.data.EmployeeRepository;
 import java.util.List;
 
 public class EmployeeViewModel extends AndroidViewModel {
-    public EmployeeRepository repository;
-    public final LiveData<List<Employee>> allEmployees;
+    private EmployeeRepository repository;
+    private final LiveData<List<Employee>> allEmployees;
 
     public EmployeeViewModel(@NonNull Application application) {
         super(application);

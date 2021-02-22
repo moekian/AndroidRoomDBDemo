@@ -19,10 +19,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<Employee> employeeList;
     private Context context;
+    private OnEmployeeClickListener onEmployeeClickListener;
 
-    public RecyclerViewAdapter(List<Employee> employeeList, Context context) {
+    public RecyclerViewAdapter(List<Employee> employeeList, Context context, OnEmployeeClickListener onEmployeeClickListener) {
         this.employeeList = employeeList;
         this.context = context;
+        this.onEmployeeClickListener = onEmployeeClickListener;
     }
 
     @NonNull
@@ -46,7 +48,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return employeeList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView name;
         private TextView department;
         private TextView hireDate;
@@ -58,9 +60,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             department = itemView.findViewById(R.id.dept_row);
             hireDate = itemView.findViewById(R.id.hire_date_row);
 
+            itemView.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            onEmployeeClickListener.onEmployeeClick(getAdapterPosition());
         }
     }
 
+    public interface OnEmployeeClickListener {
+        void onEmployeeClick(int position);
+    }
 }
 
 

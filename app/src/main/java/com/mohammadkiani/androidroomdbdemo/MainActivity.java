@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mohammadkiani.androidroomdbdemo.adapter.RecyclerViewAdapter;
@@ -23,11 +24,12 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnEmployeeClickListener{
 
 
     private static final String TAG = "MainActivity";
     public static final int ADD_EMPLOYEE_REQUEST_CODE = 1;
+    public static final String EMPLOYEE_ID = "employee_id";
 
 
     // declaration of employeeViewModel
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         employeeViewModel.getAllEmployees().observe(this, employees -> {
             // set adapter
-            recyclerViewAdapter = new RecyclerViewAdapter(employees, this);
+            recyclerViewAdapter = new RecyclerViewAdapter(employees, this, this);
             recyclerView.setAdapter(recyclerViewAdapter);
         });
 
@@ -83,6 +85,15 @@ public class MainActivity extends AppCompatActivity {
             employeeViewModel.insert(employee);
 
         }
+    }
+
+    @Override
+    public void onEmployeeClick(int position) {
+        Log.d(TAG, "onEmployeeClick: " + position);
+        Employee employee = employeeViewModel.getAllEmployees().getValue().get(position);
+        Intent intent = new Intent(MainActivity.this, AddEmployeeActivity.class);
+        intent.putExtra(EMPLOYEE_ID, employee.getId());
+        startActivity(intent);
     }
 }
 
