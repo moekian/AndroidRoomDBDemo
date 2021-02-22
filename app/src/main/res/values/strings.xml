@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Android Room DB Demo</string>
+    <string name="add_empoyee_button">Add Empoyee Button</string>
+    <string name="name_row">Name</string>
+    <string name="person_image">Person image</string>
+    <string name="hire_date_row">hire date</string>
+    <string name="dept_row_name">department name</string>
 </resources>
