@@ -25,7 +25,7 @@ public interface EmployeeDao {
     void deleteAll();
 
     @Query("SELECT * FROM employee_table ORDER BY name ASC")
-    LiveData<List<Employee>> getAllEmployee();
+    LiveData<List<Employee>> getAllEmployees();
 
     @Query("SELECT * FROM employee_table WHERE id == :id")
     LiveData<Employee> getEmployee(int id);
