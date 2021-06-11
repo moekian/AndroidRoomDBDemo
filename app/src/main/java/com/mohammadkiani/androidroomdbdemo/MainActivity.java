@@ -1,5 +1,7 @@
 package com.mohammadkiani.androidroomdbdemo;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -67,7 +70,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddEmployeeActivity.class);
-            startActivityForResult(intent, ADD_EMPLOYEE_REQUEST_CODE);
+            /*startActivityForResult(intent, ADD_EMPLOYEE_REQUEST_CODE);*/
+            // the following approach as startActivityForResult is deprecated
+            launcher.launch(intent);
+
         });
 
         // attach the itemTouchHelper to my recyclerView
@@ -120,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         }
     };
 
+    /*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -139,6 +146,25 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
         }
     }
+*/
+    // the following approach instead of onActivityResult as startActivityForResult is deprecated
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    String name = data.getStringExtra(AddEmployeeActivity.NAME_REPLY);
+                    String salary = data.getStringExtra(AddEmployeeActivity.SALARY_REPLY);
+                    String department = data.getStringExtra(AddEmployeeActivity.DEPARTMENT_REPLY);
+                    // getting the current date
+                    Calendar cal = Calendar.getInstance();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
+                    String joiningDate = sdf.format(cal.getTime());
+
+                    Employee employee = new Employee(name, department, joiningDate, Double.parseDouble(salary));
+                    employeeViewModel.insert(employee);
+                }
+            });
 
     @Override
     public void onEmployeeClick(int position) {
