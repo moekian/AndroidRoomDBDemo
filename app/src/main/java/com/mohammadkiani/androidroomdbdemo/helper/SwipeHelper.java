@@ -27,6 +27,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+/**
+ * Swipe Helper class
+ * You need to call the constructor of the class and override the abstract method "instantiateSwipeButton"
+ * in this method you pass the recyclerView viewHolder and the list of buttons you want to have
+ */
 public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
     /**
      * Creates a Callback for the given drag and swipe allowance. These values serve as*/
@@ -90,6 +95,9 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         super(dragDirs, swipeDirs);
     }*/
 
+    /**
+     * The class SwipeUnderlayButton is for creating underlay buttons
+     */
     protected class SwipeUnderlayButton {
         private Context context;
         private String text;
@@ -98,6 +106,16 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         private SwipeUnderlayButtonClickListener listener;
         private Resources resources;
 
+        /**
+         * SwipeUnderlayButton is used to create underlay buttons in swipe action
+         * @param context the context of the app
+         * @param text the text to be shown on the button in case the drawable not provided
+         * @param imageResId the vector asset you have in drawable folder, 0 in case no drawable provided
+         * @param textSize the size (int) of the button text
+         * @param cornerSize the size (int) of the corner of the button round rect, 0 in case you want sharp corners
+         * @param color background color of the button
+         * @param listener handler of action
+         */
         public SwipeUnderlayButton(Context context, String text, int imageResId, int textSize, int cornerSize, int color, SwipeUnderlayButtonClickListener listener) {
             this.context = context;
             this.text = text;
@@ -160,6 +178,12 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
     }
 
+    /**
+     *
+     * @param context the context should be passed to be used in swipeHelper class
+     * @param buttonWidth the width of buttons
+     * @param recyclerView the instance of recyclerView in the app
+     */
     public SwipeHelper(Context context, int buttonWidth, RecyclerView recyclerView) {
         super(0, ItemTouchHelper.LEFT);
         this.buttonWidth = buttonWidth;
@@ -258,6 +282,10 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         }
     }
 
+    /**
+     * An abstract method to be overridden in order to create underlay buttons
+     * @param viewHolder recyclerView ViewHolder
+     * @param buffer list of buttons
+     */
     protected abstract void instantiateSwipeButton(RecyclerView.ViewHolder viewHolder, List<SwipeUnderlayButton> buffer);
-
 }
