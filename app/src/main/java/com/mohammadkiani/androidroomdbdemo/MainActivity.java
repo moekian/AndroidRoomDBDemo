@@ -2,35 +2,33 @@ package com.mohammadkiani.androidroomdbdemo;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.DialogInterface;
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.mohammadkiani.androidroomdbdemo.adapter.RecyclerViewAdapter;
+import com.mohammadkiani.androidroomdbdemo.helper.SwipeUnderlayButtonClickListener;
+import com.mohammadkiani.androidroomdbdemo.helper.SwipeHelper;
 import com.mohammadkiani.androidroomdbdemo.model.Employee;
 import com.mohammadkiani.androidroomdbdemo.model.EmployeeViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
-import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+//import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnEmployeeClickListener{
 
@@ -38,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     private static final String TAG = "MainActivity";
     public static final int ADD_EMPLOYEE_REQUEST_CODE = 1;
     public static final String EMPLOYEE_ID = "employee_id";
+
+    private SwipeHelper swipeHelper;
 
 
     // declaration of employeeViewModel
@@ -76,11 +76,43 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
         });
 
-        // attach the itemTouchHelper to my recyclerView
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
+        // using SwipeHelper class
+        swipeHelper = new SwipeHelper(this, 300, recyclerView) {
+            @Override
+            protected void instantiateSwipeButton(RecyclerView.ViewHolder viewHolder, List<SwipeUnderlayButton> buffer) {
+                buffer.add(new SwipeUnderlayButton(MainActivity.this,
+                        "Delete",
+                        R.drawable.ic_delete_white,
+                        30,
+                        50,
+                        Color.parseColor("#ff3c30"),
+                        new SwipeUnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int position) {
+                                deleteEmployee(position);
+                                Log.d(TAG, "onClick: " + "delete click");
+                            }
+                        }));
+                buffer.add(new SwipeUnderlayButton(MainActivity.this,
+                        "Update",
+                        R.drawable.ic_update_white,
+                        30,
+                        50,
+                        Color.parseColor("#ff9502"),
+                        new SwipeUnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int position) {
+                                displayEmployeeForEditing(position);
+                            }
+                        }));
+            }
+        };
 
+        // attach the itemTouchHelper to my recyclerView
+        /*ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);*/
+    }
+/*
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
         @Override
@@ -94,17 +126,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
             Employee employee = employeeViewModel.getAllEmployees().getValue().get(position);
             switch (direction) {
                 case ItemTouchHelper.LEFT:
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Are you sure?");
-                    builder.setPositiveButton("Yes", (dialog, which) -> {
-                        deletedEmployee = employee;
-                        employeeViewModel.delete(employee);
-                        Snackbar.make(recyclerView, deletedEmployee.getName() + " is deleted!", Snackbar.LENGTH_LONG)
-                                .setAction("Undo", v -> employeeViewModel.insert(deletedEmployee)).show();
-                    });
-                    builder.setNegativeButton("No", (dialog, which) -> recyclerViewAdapter.notifyDataSetChanged());
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
+                    deleteEmployee(position);
                     break;
                 case ItemTouchHelper.RIGHT:
                     Intent intent = new Intent(MainActivity.this, AddEmployeeActivity.class);
@@ -119,13 +141,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
             new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                     .setIconHorizontalMargin(1, 1)
                     .addSwipeLeftActionIcon(R.drawable.ic_delete)
-                    .addSwipeRightActionIcon(R.drawable.ic_update)
+                    .addSwipeRightActionIcon(R.drawable.ic_update_white)
                     .create()
                     .decorate();
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
-
+*/
     /*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -168,11 +190,31 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
     @Override
     public void onEmployeeClick(int position) {
+        displayEmployeeForEditing(position);
         Log.d(TAG, "onEmployeeClick: " + position);
+    }
+
+    private void displayEmployeeForEditing(int position) {
         Employee employee = employeeViewModel.getAllEmployees().getValue().get(position);
         Intent intent = new Intent(MainActivity.this, AddEmployeeActivity.class);
         intent.putExtra(EMPLOYEE_ID, employee.getId());
         startActivity(intent);
+    }
+
+    private void deleteEmployee(int position) {
+        Employee employee = employeeViewModel.getAllEmployees().getValue().get(position);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Are you sure?");
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            deletedEmployee = employee;
+            employeeViewModel.delete(employee);
+            Snackbar.make(recyclerView, deletedEmployee.getName() + " is deleted!", Snackbar.LENGTH_LONG)
+                    .setAction("Undo", v -> employeeViewModel.insert(deletedEmployee)).show();
+            Toast.makeText(MainActivity.this, employee.getName() + " deleted", Toast.LENGTH_SHORT).show();
+        });
+        builder.setNegativeButton("No", (dialog, which) -> recyclerViewAdapter.notifyDataSetChanged());
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
 
