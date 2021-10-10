@@ -3,15 +3,27 @@ package com.mohammadkiani.androidroomdbdemo.model;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 // this is our entity in Room db
-@Entity(tableName = "employee_table")
+@Entity(
+        tableName = "employee_table",
+        foreignKeys = @ForeignKey(entity = Department.class,
+        parentColumns = "dept_id",
+        childColumns = "department_id",
+        onDelete = CASCADE)
+)
 public class Employee {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private int id;
+    private long id;
+
+    @ColumnInfo(name = "department_id")
+    private long departmentId;
 
     @ColumnInfo(name = "name")
     @NonNull
@@ -37,11 +49,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -76,5 +88,13 @@ public class Employee {
 
     public void setSalary(double salary) {
         this.salary = salary;
+    }
+
+    public long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(long departmentId) {
+        this.departmentId = departmentId;
     }
 }

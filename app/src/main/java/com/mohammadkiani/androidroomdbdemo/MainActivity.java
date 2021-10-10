@@ -20,10 +20,13 @@ import com.google.android.material.snackbar.Snackbar;
 import com.mohammadkiani.androidroomdbdemo.adapter.RecyclerViewAdapter;
 import com.mohammadkiani.androidroomdbdemo.helper.SwipeUnderlayButtonClickListener;
 import com.mohammadkiani.androidroomdbdemo.helper.SwipeHelper;
+import com.mohammadkiani.androidroomdbdemo.model.Department;
+import com.mohammadkiani.androidroomdbdemo.model.DepartmentWithEmployees;
 import com.mohammadkiani.androidroomdbdemo.model.Employee;
 import com.mohammadkiani.androidroomdbdemo.model.EmployeeViewModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -61,8 +64,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        employeeViewModel.getAllEmployees().observe(this, employees -> {
+        /*employeeViewModel.getAllEmployees().observe(this, employees -> {
             // set adapter
+            recyclerViewAdapter = new RecyclerViewAdapter(employees, this, this);
+            recyclerView.setAdapter(recyclerViewAdapter);
+        });*/
+
+        employeeViewModel.getDepartmentsWithEmployeesList().observe(this, departmentsWithEmployees -> {
+            List<Employee> employees = new ArrayList<>();
+            departmentsWithEmployees.forEach(departmentWithEmployees -> departmentWithEmployees.employeeList.forEach(employee -> employees.add(employee)));
             recyclerViewAdapter = new RecyclerViewAdapter(employees, this, this);
             recyclerView.setAdapter(recyclerViewAdapter);
         });
@@ -184,14 +194,17 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
                     String joiningDate = sdf.format(cal.getTime());
 
                     Employee employee = new Employee(name, department, joiningDate, Double.parseDouble(salary));
-                    employeeViewModel.insert(employee);
+                    Department dept = new Department(department, "");
+                    employeeViewModel.insert(dept, employee);
                 }
             });
 
     @Override
     public void onEmployeeClick(int position) {
-        displayEmployeeForEditing(position);
-        Log.d(TAG, "onEmployeeClick: " + position);
+//        displayEmployeeForEditing(position);
+//        Log.d(TAG, "onEmployeeClick: " + position);
+        List<DepartmentWithEmployees> departmentWithEmployees = employeeViewModel.getDepartmentsWithEmployeesList().getValue();
+        Log.d(TAG, "onEmployeeClick: " + departmentWithEmployees.get(position).department.getName());
     }
 
     private void displayEmployeeForEditing(int position) {

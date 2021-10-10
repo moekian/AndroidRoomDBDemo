@@ -25,7 +25,11 @@ public class EmployeeViewModel extends AndroidViewModel {
 
     public LiveData<Employee> getEmployee(int id) {return repository.getEmployee(id);}
 
+    public LiveData<List<DepartmentWithEmployees>> getDepartmentsWithEmployeesList() {return repository.getDepartmentsWithEmployeesList();}
+
     public void insert(Employee employee) {repository.insert(employee);}
+
+    public void insert(Department department, Employee employee) {repository.insert(department, employee);}
 
     public void update(Employee employee) {repository.update(employee);}
 
