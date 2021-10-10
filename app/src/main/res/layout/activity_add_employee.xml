@@ -56,6 +56,19 @@
             android:inputType="number"
             android:importantForAutofill="no" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="5dp"
+            android:text="@string/select_contract_type" />
+
+        <Spinner
+            android:id="@+id/spinner_contract"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/contract" />
+
         <Button
             android:id="@+id/btn_add_employee"
             android:layout_width="match_parent"

@@ -38,15 +38,18 @@ public class Employee {
     @ColumnInfo(name = "salary")
     private double salary;
 
+    private String contract;
+
     @Ignore
     public Employee() {
     }
 
-    public Employee(@NonNull String name, String departmentName, String joiningDate, double salary) {
+    public Employee(@NonNull String name, String departmentName, String joiningDate, double salary, String contract) {
         this.name = name;
         this.departmentName = departmentName;
         this.joiningDate = joiningDate;
         this.salary = salary;
+        this.contract = contract;
     }
 
     public long getId() {
@@ -96,5 +99,17 @@ public class Employee {
 
     public void setDepartmentId(long departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public String getContract() {
+        return contract;
+    }
+
+    public void setContract(String contract) {
+        this.contract = contract;
+    }
+
+    public enum Contract {
+        FULL_TIME, PART_TIME
     }
 }

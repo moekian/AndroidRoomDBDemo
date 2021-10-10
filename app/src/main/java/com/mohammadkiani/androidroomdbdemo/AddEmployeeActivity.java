@@ -24,9 +24,10 @@ public class AddEmployeeActivity extends AppCompatActivity {
     public static final String NAME_REPLY = "name_reply";
     public static final String SALARY_REPLY = "salary_reply";
     public static final String DEPARTMENT_REPLY = "department_reply";
+    public static final String CONTRACT_REPLY = "contract_reply";
 
     private EditText etName, etSalary;
-    private Spinner spinnerDept;
+    private Spinner spinnerDept, spinnerContract;
 
     private boolean isEditing = false;
     private int employeeId = 0;
@@ -45,6 +46,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
         etName = findViewById(R.id.et_name);
         etSalary = findViewById(R.id.et_salary);
         spinnerDept = findViewById(R.id.spinner_dept);
+        spinnerContract = findViewById(R.id.spinner_contract);
 
         Button addUpdateButton = findViewById(R.id.btn_add_employee);
 
@@ -77,6 +79,8 @@ public class AddEmployeeActivity extends AppCompatActivity {
         String name = etName.getText().toString().trim();
         String salary = etSalary.getText().toString().trim();
         String department = spinnerDept.getSelectedItem().toString();
+        String contract = spinnerContract.getSelectedItem().toString();
+//                spinnerContract.getSelectedItem().toString() == "Full Time" ? Employee.Contract.FULL_TIME : Employee.Contract.PART_TIME;
 
         if (name.isEmpty()) {
             etName.setError("name field cannot be empty");
@@ -97,12 +101,14 @@ public class AddEmployeeActivity extends AppCompatActivity {
             employee.setDepartmentName(department);
             employee.setJoiningDate(employeeTobeUpdated.getJoiningDate());
             employee.setSalary(Double.parseDouble(salary));
+            employee.setContract(contract);
             employeeViewModel.update(employee);
         } else {
             Intent replyIntent = new Intent();
             replyIntent.putExtra(NAME_REPLY, name);
             replyIntent.putExtra(SALARY_REPLY, salary);
             replyIntent.putExtra(DEPARTMENT_REPLY, department);
+            replyIntent.putExtra(CONTRACT_REPLY, contract);
             setResult(RESULT_OK, replyIntent);
 
             Toast.makeText(this, "Employee added", Toast.LENGTH_SHORT).show();

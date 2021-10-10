@@ -188,12 +188,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
                     String name = data.getStringExtra(AddEmployeeActivity.NAME_REPLY);
                     String salary = data.getStringExtra(AddEmployeeActivity.SALARY_REPLY);
                     String department = data.getStringExtra(AddEmployeeActivity.DEPARTMENT_REPLY);
+                    String contract = data.getStringExtra(AddEmployeeActivity.CONTRACT_REPLY);
                     // getting the current date
                     Calendar cal = Calendar.getInstance();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
                     String joiningDate = sdf.format(cal.getTime());
 
-                    Employee employee = new Employee(name, department, joiningDate, Double.parseDouble(salary));
+                    Employee employee = new Employee(name, department, joiningDate, Double.parseDouble(salary), contract);
                     Department dept = new Department(department, "");
                     employeeViewModel.insert(dept, employee);
                 }

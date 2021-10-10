@@ -51,9 +51,5 @@ public abstract class EmployeeDao {
         final long departmentId = insert(department);
         employee.setDepartmentId(departmentId);
         insert(employee);
-        /*employees.forEach(employee -> {
-            employee.setDepartmentId(departmentId);
-            insert(employee);
-        });*/
     }
 }
