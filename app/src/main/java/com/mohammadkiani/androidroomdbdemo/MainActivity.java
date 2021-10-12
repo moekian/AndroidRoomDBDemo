@@ -146,6 +146,7 @@ public class MainActivity<T> extends AppCompatActivity implements RecyclerViewAd
                         30,
                         50,
                         Color.parseColor("#ff3c30"),
+                        SwipeDirection.LEFT,
                         new SwipeUnderlayButtonClickListener() {
                             @Override
                             public void onClick(int position) {
@@ -160,10 +161,25 @@ public class MainActivity<T> extends AppCompatActivity implements RecyclerViewAd
                         30,
                         50,
                         Color.parseColor("#ff9502"),
+                        SwipeDirection.LEFT,
                         new SwipeUnderlayButtonClickListener() {
                             @Override
                             public void onClick(int position) {
                                 displayEmployeeForEditing(position);
+                            }
+                        }));
+                buffer.add(new SwipeUnderlayButton(MainActivity.this,
+                        "Dependents",
+                        R.drawable.ic_departments,
+                        30,
+                        50,
+                        Color.parseColor("#9370DB"),
+                        SwipeDirection.RIGHT,
+                        new SwipeUnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int position) {
+                                Log.d(TAG, "onClick: dependents" );
+                                //TODO: add another entity (dependents of an employee) and show the list
                             }
                         }));
             }

@@ -28,6 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.stream.Collectors;
 
 /**
  * Swipe Helper class
@@ -107,6 +108,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         private RectF clickRegion;
         private SwipeUnderlayButtonClickListener listener;
         private Resources resources;
+        private SwipeDirection swipeDirection;
 
         /**
          * SwipeUnderlayButton is used to create underlay buttons in swipe action
@@ -118,7 +120,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
          * @param color background color of the button
          * @param listener handler of action
          */
-        public SwipeUnderlayButton(Context context, String text, int imageResId, int textSize, int cornerSize, int color, SwipeUnderlayButtonClickListener listener) {
+        public SwipeUnderlayButton(Context context, String text, int imageResId, int textSize, int cornerSize, int color, SwipeDirection swipeDirection, SwipeUnderlayButtonClickListener listener) {
             this.context = context;
             this.text = text;
             this.imageResId = imageResId;
@@ -127,6 +129,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             this.color = color;
             this.listener = listener;
             this.resources = context.getResources();
+            this.swipeDirection = swipeDirection;
         }
 
         public boolean onclick(float x, float y) {
@@ -135,6 +138,10 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
                 return true;
             }
             return false;
+        }
+
+        public SwipeDirection getSwipeDirection() {
+            return swipeDirection;
         }
 
         public void onDraw(Canvas c, RectF rectF, int position) {
@@ -187,7 +194,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
      * @param recyclerView the instance of recyclerView in the app
      */
     public SwipeHelper(Context context, int buttonWidth, RecyclerView recyclerView) {
-        super(0, ItemTouchHelper.LEFT);
+        super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.buttonWidth = buttonWidth;
         this.recyclerView = recyclerView;
         this.buttonList = new ArrayList<>();
@@ -265,31 +272,51 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             swipePosition = position;
             return;
         }
+
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            if (dX < 0) {
-                List<SwipeUnderlayButton> buffer = new ArrayList<>();
-                if (!buttonBuffer.containsKey(position)) {
-                    instantiateSwipeButton(viewHolder, buffer);
-                    buttonBuffer.put(position, buffer);
-                } else {
-                    buffer = buttonBuffer.get(position);
-                }
-                translationX = dX*buffer.size()*200 / itemView.getWidth();
-                drawButton(c, itemView, buffer, position, translationX);
+            List<SwipeUnderlayButton> buffer = new ArrayList<>();
+            if (!buttonBuffer.containsKey(position)) {
+                instantiateSwipeButton(viewHolder, buffer);
+                buttonBuffer.put(position, buffer);
+            } else {
+                buffer = buttonBuffer.get(position);
             }
+            translationX = dX*buffer.size()*buttonWidth / itemView.getWidth();
+            List<SwipeUnderlayButton> leftButtons = buffer.stream().filter(btn -> btn.getSwipeDirection()==SwipeDirection.LEFT).collect(Collectors.toList());
+            List<SwipeUnderlayButton> rightButtons = buffer.stream().filter(btn -> btn.getSwipeDirection()==SwipeDirection.RIGHT).collect(Collectors.toList());
+            if (dX < 0) // swipe to left
+                drawButtonOnSwipeLeft(c, itemView, leftButtons, position, translationX);
+            else if (dX > 0) // swipe to right
+                drawButtonOnSwipeRight(c, itemView, rightButtons, position, translationX);
         }
         super.onChildDraw(c, recyclerView, viewHolder, translationX, dY, actionState, isCurrentlyActive);
 
     }
 
-    private void drawButton(Canvas c, View itemView, List<SwipeUnderlayButton> buffer, int position, float translationX) {
+    private void drawButtonOnSwipeLeft(Canvas c, View itemView, List<SwipeUnderlayButton> buffer, int position, float translationX) {
         float right = itemView.getRight();
         float dButtonWidth = -1*translationX / buffer.size();
         for (SwipeUnderlayButton button : buffer) {
+            if (button.getSwipeDirection() != SwipeDirection.LEFT) continue;
             float left = right - dButtonWidth;
             button.onDraw(c, new RectF(left, itemView.getTop(), right, itemView.getBottom()), position);
             right = left;
         }
+    }
+
+    private void drawButtonOnSwipeRight(Canvas c, View itemView, List<SwipeUnderlayButton> buffer, int position, float translationX) {
+        float left = itemView.getLeft();
+        float dButtonWidth = translationX / buffer.size();
+        for (SwipeUnderlayButton button : buffer) {
+            if (button.getSwipeDirection() != SwipeDirection.RIGHT) continue;
+            float right = left + dButtonWidth;
+            button.onDraw(c, new RectF(left, itemView.getTop(), right, itemView.getBottom()), position);
+            left = right;
+        }
+    }
+
+    protected enum SwipeDirection {
+        LEFT, RIGHT
     }
 
     /**
