@@ -8,6 +8,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
+import static androidx.room.ForeignKey.NO_ACTION;
 
 // this is our entity in Room db
 @Entity(
@@ -15,7 +16,8 @@ import static androidx.room.ForeignKey.CASCADE;
         foreignKeys = @ForeignKey(entity = Department.class,
         parentColumns = "dept_id",
         childColumns = "department_id",
-        onDelete = CASCADE)
+        onDelete = CASCADE,
+        onUpdate = NO_ACTION)
 )
 public class Employee {
     @PrimaryKey(autoGenerate = true)

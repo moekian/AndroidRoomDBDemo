@@ -27,9 +27,11 @@ public class EmployeeRepository {
         return allEmployees;
     }
 
-    public LiveData<Employee> getEmployee(int id) {return employeeDao.getEmployee(id);}
+    public LiveData<Employee> getEmployee(long id) {return employeeDao.getEmployee(id);}
 
     public LiveData<List<DepartmentWithEmployees>> getDepartmentsWithEmployeesList() {return departmentsWithEmployeesList;}
+
+    public LiveData<List<Employee>> getEmployeesInDepartment(String department) {return employeeDao.getEmployeesInDepartment(department);}
 
     public void insert(Employee employee) {
         EmployeeRoomDatabase.databaseWriteExecutor.execute(() -> employeeDao.insert(employee));
@@ -50,6 +52,18 @@ public class EmployeeRepository {
 
     public void delete(Employee employee) {
         EmployeeRoomDatabase.databaseWriteExecutor.execute(() -> employeeDao.delete(employee));
+    }
+
+    public void update(Department department) {
+        EmployeeRoomDatabase.databaseWriteExecutor.execute(() -> employeeDao.update(department));
+    }
+
+    public void updateEmployeeInDepartment(Department department, Employee employee) {
+        EmployeeRoomDatabase.databaseWriteExecutor.execute(() -> employeeDao.updateEmployeeInDepartment(department, employee));
+    }
+
+    public void delete(Department department) {
+        EmployeeRoomDatabase.databaseWriteExecutor.execute(() -> employeeDao.delete(department));
     }
 }
 

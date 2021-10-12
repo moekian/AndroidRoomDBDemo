@@ -34,13 +34,30 @@ public abstract class EmployeeDao {
     public abstract LiveData<List<Employee>> getAllEmployees();
 
     @Query("SELECT * FROM employee_table WHERE id == :id")
-    public abstract LiveData<Employee> getEmployee(int id);
+    public abstract LiveData<Employee> getEmployee(long id);
+
+    @Query("SELECT * FROM employee_table WHERE department = :department")
+    public abstract LiveData<List<Employee>> getEmployeesInDepartment(String department);
 
     @Update
     public abstract void update(Employee employee);
 
+    @Transaction
+    public void updateEmployeeInDepartment(Department department, Employee employee) {
+        update(department);
+//        employee.setDepartmentId(employee.getDepartmentId());
+        update(employee);
+
+    }
+
     @Delete
     public abstract void delete(Employee employee);
+
+    @Update
+    public abstract void update(Department department);
+
+    @Delete
+    public abstract void delete(Department department);
 
     @Transaction
     @Query("SELECT * FROM department_table")

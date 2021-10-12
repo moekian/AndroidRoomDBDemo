@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mohammadkiani.androidroomdbdemo.model.Department;
 import com.mohammadkiani.androidroomdbdemo.model.Employee;
 import com.mohammadkiani.androidroomdbdemo.model.EmployeeViewModel;
 
@@ -30,7 +31,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
     private Spinner spinnerDept, spinnerContract;
 
     private boolean isEditing = false;
-    private int employeeId = 0;
+    private long employeeId = 0;
     private Employee employeeTobeUpdated;
 
     private EmployeeViewModel employeeViewModel;
@@ -55,7 +56,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
         });
 
         if (getIntent().hasExtra(MainActivity.EMPLOYEE_ID)) {
-            employeeId = getIntent().getIntExtra(MainActivity.EMPLOYEE_ID, 0);
+            employeeId = getIntent().getLongExtra(MainActivity.EMPLOYEE_ID, 0);
             Log.d("TAG", "onCreate: " + employeeId);
 
             employeeViewModel.getEmployee(employeeId).observe(this, employee -> {
@@ -95,14 +96,20 @@ public class AddEmployeeActivity extends AppCompatActivity {
         }
 
         if (isEditing) {
+            Department dept = new Department();
             Employee employee = new Employee();
-            employee.setId(employeeId);
+
+            dept.setId(employeeTobeUpdated.getDepartmentId());
+            dept.setName(department);
+            employee.setId(employeeTobeUpdated.getId());
             employee.setName(name);
             employee.setDepartmentName(department);
             employee.setJoiningDate(employeeTobeUpdated.getJoiningDate());
             employee.setSalary(Double.parseDouble(salary));
             employee.setContract(contract);
-            employeeViewModel.update(employee);
+            employee.setDepartmentId(employeeTobeUpdated.getDepartmentId());
+//            employeeViewModel.update(employee);
+            employeeViewModel.updateEmployeeInDepartment(dept, employee);
         } else {
             Intent replyIntent = new Intent();
             replyIntent.putExtra(NAME_REPLY, name);

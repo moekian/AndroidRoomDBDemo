@@ -8,7 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:backgroundTint="@color/teal_700"
         app:cardCornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:padding="8dp"
             android:paddingHorizontal="10dp">
 
             <LinearLayout
@@ -40,8 +41,9 @@
 
                     <TextView
                         android:id="@+id/name_row"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
                         android:text="@string/name_row"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp" />
@@ -56,6 +58,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/contract_type_row"
+                            android:paddingStart="8dp"
                             android:textColor="#B1B0B0"
                             android:layout_weight="1"
                             android:textSize="18sp" />

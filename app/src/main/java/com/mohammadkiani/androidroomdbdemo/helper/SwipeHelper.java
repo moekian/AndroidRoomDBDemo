@@ -20,6 +20,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mohammadkiani.androidroomdbdemo.adapter.RecyclerViewAdapter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -234,6 +236,14 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public float getSwipeThreshold(@NonNull RecyclerView.ViewHolder viewHolder) {
         return swipeThreshold;
+    }
+
+    @Override
+    public int getSwipeDirs(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        if (viewHolder instanceof RecyclerViewAdapter.ViewHolder)
+            if (((RecyclerViewAdapter.ViewHolder) viewHolder).isDepartmentView())
+                return 0;
+        return super.getSwipeDirs(recyclerView, viewHolder);
     }
 
     @Override

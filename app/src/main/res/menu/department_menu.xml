@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/department_menu_item"
+        android:icon="@drawable/ic_departments"
+        android:title="Departments"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/department_list_menu_item"
+        android:title="Employees by Departments"
+        app:showAsAction="never">
+
+        <menu>
+            <item android:id="@+id/technical_menu_item"
+                android:title="Technical"
+                app:showAsAction="never"/>
+            <item android:id="@+id/support_menu_item"
+                android:title="Support"
+                app:showAsAction="never"/>
+            <item android:id="@+id/rd_menu_item"
+                android:title="R &amp; D"
+                app:showAsAction="never"/>
+            <item android:id="@+id/marketing_menu_item"
+                android:title="Marketing"
+                app:showAsAction="never"/>
+            <item android:id="@+id/engineering_menu_item"
+                android:title="Engineering"
+                app:showAsAction="never"/>
+            <item android:id="@+id/testing_menu_item"
+                android:title="Testing"
+                app:showAsAction="never"/>
+            <item android:id="@+id/development_menu_item"
+                android:title="Development"
+                app:showAsAction="never"/>
+            <item android:id="@+id/it_menu_item"
+                android:title="IT"
+                app:showAsAction="never"/>
+            <item android:id="@+id/human_resource_menu_item"
+                android:title="Human Resource"
+                app:showAsAction="never"/>
+        </menu>
+    </item>
+
+</menu>

@@ -17,4 +17,12 @@ public class DepartmentWithEmployees {
         this.department = department;
         this.employeeList = employeeList;
     }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
 }

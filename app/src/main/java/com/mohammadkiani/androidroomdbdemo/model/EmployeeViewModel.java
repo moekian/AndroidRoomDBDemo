@@ -23,9 +23,11 @@ public class EmployeeViewModel extends AndroidViewModel {
 
     public LiveData<List<Employee>> getAllEmployees() {return allEmployees;}
 
-    public LiveData<Employee> getEmployee(int id) {return repository.getEmployee(id);}
+    public LiveData<Employee> getEmployee(long id) {return repository.getEmployee(id);}
 
     public LiveData<List<DepartmentWithEmployees>> getDepartmentsWithEmployeesList() {return repository.getDepartmentsWithEmployeesList();}
+
+    public LiveData<List<Employee>> getEmployeesInDepartment(String department) {return repository.getEmployeesInDepartment(department);}
 
     public void insert(Employee employee) {repository.insert(employee);}
 
@@ -34,4 +36,10 @@ public class EmployeeViewModel extends AndroidViewModel {
     public void update(Employee employee) {repository.update(employee);}
 
     public void delete(Employee employee) {repository.delete(employee);}
+
+    public void update(Department department) {repository.update(department);}
+
+    public void updateEmployeeInDepartment(Department department, Employee employee) {repository.updateEmployeeInDepartment(department, employee);}
+
+    public void delete(Department department) {repository.delete(department);}
 }

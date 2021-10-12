@@ -3,6 +3,7 @@ package com.mohammadkiani.androidroomdbdemo.model;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "department_table")
@@ -18,6 +19,10 @@ public class Department {
     public Department(String name, String location) {
         this.name = name;
         this.location = location;
+    }
+
+    @Ignore
+    public Department() {
     }
 
     public String getName() {
