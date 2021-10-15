@@ -8,8 +8,8 @@ import java.util.List;
 public class DepartmentWithEmployees {
     @Embedded public Department department;
     @Relation(
-            parentColumn = "dept_id",
-            entityColumn = "department_id"
+            parentColumn = "name",
+            entityColumn = "department_name"
     )
     public List<Employee> employeeList;
 
@@ -25,4 +25,5 @@ public class DepartmentWithEmployees {
     public List<Employee> getEmployeeList() {
         return employeeList;
     }
+    public int getEmployeeListSize() {return employeeList == null ? 0 : employeeList.size();}
 }

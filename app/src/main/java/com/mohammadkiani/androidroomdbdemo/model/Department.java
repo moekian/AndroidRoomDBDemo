@@ -9,11 +9,11 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "department_table")
 public class Department {
 
-    @PrimaryKey(autoGenerate = true)
+
     @ColumnInfo(name = "dept_id")
     private long id;
 
-    @NonNull private String name;
+    @PrimaryKey @NonNull private String name;
     private String location;
 
     public Department(String name, String location) {

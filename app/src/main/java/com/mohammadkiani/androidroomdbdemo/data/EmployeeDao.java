@@ -36,7 +36,7 @@ public abstract class EmployeeDao {
     @Query("SELECT * FROM employee_table WHERE id == :id")
     public abstract LiveData<Employee> getEmployee(long id);
 
-    @Query("SELECT * FROM employee_table WHERE department = :department")
+    @Query("SELECT * FROM employee_table WHERE department_name = :department")
     public abstract LiveData<List<Employee>> getEmployeesInDepartment(String department);
 
     @Update
@@ -45,10 +45,14 @@ public abstract class EmployeeDao {
     @Transaction
     public void updateEmployeeInDepartment(Department department, Employee employee) {
         update(department);
-//        employee.setDepartmentId(employee.getDepartmentId());
         update(employee);
-
     }
+
+    @Query("SELECT * FROM department_table WHERE name = :name")
+    public abstract Department getDepartment(String name);
+
+    @Query("SELECT * FROM department_table")
+    public abstract LiveData<List<Department>> getAllDepartments();
 
     @Delete
     public abstract void delete(Employee employee);

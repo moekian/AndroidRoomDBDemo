@@ -9,8 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidRoomDBDemo">
+        <activity
+            android:name=".DepartmentActivity"
+            android:exported="true"
+            android:label="@string/title_activity_department"
+            android:theme="@style/Theme.AndroidRoomDBDemo.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".AddEmployeeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".EmployeeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

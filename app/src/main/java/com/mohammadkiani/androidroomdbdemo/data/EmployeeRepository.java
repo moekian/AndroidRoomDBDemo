@@ -65,6 +65,8 @@ public class EmployeeRepository {
     public void delete(Department department) {
         EmployeeRoomDatabase.databaseWriteExecutor.execute(() -> employeeDao.delete(department));
     }
+
+    public LiveData<List<Department>> getAllDepartments() {return employeeDao.getAllDepartments();}
 }
 
 

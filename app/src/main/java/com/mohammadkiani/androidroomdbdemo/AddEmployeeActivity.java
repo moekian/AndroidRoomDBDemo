@@ -1,13 +1,11 @@
 package com.mohammadkiani.androidroomdbdemo;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -19,6 +17,8 @@ import com.mohammadkiani.androidroomdbdemo.model.Employee;
 import com.mohammadkiani.androidroomdbdemo.model.EmployeeViewModel;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AddEmployeeActivity extends AppCompatActivity {
 
@@ -35,6 +35,9 @@ public class AddEmployeeActivity extends AppCompatActivity {
     private Employee employeeTobeUpdated;
 
     private EmployeeViewModel employeeViewModel;
+
+    private String deptName;
+    private List<Department> departments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +58,8 @@ public class AddEmployeeActivity extends AppCompatActivity {
             addUpdateEmployee();
         });
 
-        if (getIntent().hasExtra(MainActivity.EMPLOYEE_ID)) {
-            employeeId = getIntent().getLongExtra(MainActivity.EMPLOYEE_ID, 0);
+        if (getIntent().hasExtra(EmployeeActivity.EMPLOYEE_ID)) {
+            employeeId = getIntent().getLongExtra(EmployeeActivity.EMPLOYEE_ID, 0);
             Log.d("TAG", "onCreate: " + employeeId);
 
             employeeViewModel.getEmployee(employeeId).observe(this, employee -> {
@@ -69,10 +72,20 @@ public class AddEmployeeActivity extends AppCompatActivity {
                     employeeTobeUpdated = employee;
                 }
             });
+            employeeViewModel.getAllDepartments().observe(this, departments -> {
+                this.departments = departments;
+            });
             TextView label = findViewById(R.id.label);
             isEditing = true;
             label.setText(R.string.update_label);
             addUpdateButton.setText(R.string.update_employee_btn_text);
+        }
+        if (getIntent().hasExtra(FirstFragment.DEPT_NAME)) {
+            deptName = getIntent().getStringExtra(FirstFragment.DEPT_NAME);
+            String[] departmentArray = getResources().getStringArray(R.array.departments);
+            int position = Arrays.asList(departmentArray).indexOf(deptName);
+            spinnerDept.setSelection(position);
+            spinnerDept.setEnabled(false);
         }
     }
 
@@ -108,8 +121,13 @@ public class AddEmployeeActivity extends AppCompatActivity {
             employee.setSalary(Double.parseDouble(salary));
             employee.setContract(contract);
             employee.setDepartmentId(employeeTobeUpdated.getDepartmentId());
-//            employeeViewModel.update(employee);
-            employeeViewModel.updateEmployeeInDepartment(dept, employee);
+            if (!departments.stream().map(Department::getName).collect(Collectors.toList()).contains(department)) {
+                Department d = new Department(department, null);
+                employeeViewModel.insert(d);
+                employee.setDepartmentName(department);
+                employeeViewModel.update(employee);
+            } else
+                employeeViewModel.updateEmployeeInDepartment(dept, employee);
         } else {
             Intent replyIntent = new Intent();
             replyIntent.putExtra(NAME_REPLY, name);

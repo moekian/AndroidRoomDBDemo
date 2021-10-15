@@ -14,8 +14,8 @@ import static androidx.room.ForeignKey.NO_ACTION;
 @Entity(
         tableName = "employee_table",
         foreignKeys = @ForeignKey(entity = Department.class,
-        parentColumns = "dept_id",
-        childColumns = "department_id",
+        parentColumns = "name",
+        childColumns = "department_name",
         onDelete = CASCADE,
         onUpdate = NO_ACTION)
 )
@@ -31,7 +31,7 @@ public class Employee {
     @NonNull
     private String name;
 
-    @ColumnInfo(name = "department")
+    @ColumnInfo(name = "department_name")
     private String departmentName;
 
     @ColumnInfo(name = "joining_date")

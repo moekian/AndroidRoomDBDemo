@@ -2,6 +2,7 @@ package com.mohammadkiani.androidroomdbdemo.adapter;
 
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +25,12 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewAda
 
     private List<T> tList;
     private Context context;
-    private OnEmployeeClickListener onEmployeeClickListener;
+    private OnItemClickListener onItemClickListener;
 
-    public RecyclerViewAdapter(List<T> tList, Context context, OnEmployeeClickListener onEmployeeClickListener) {
+    public RecyclerViewAdapter(List<T> tList, Context context, OnItemClickListener onItemClickListener) {
         this.tList = tList;
         this.context = context;
-        this.onEmployeeClickListener = onEmployeeClickListener;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -64,6 +65,15 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewAda
             holder.imageView.setVisibility(View.GONE);
             holder.departmentView = true;
             Log.d(TAG, "onBindViewHolder: department");
+        } else if (t instanceof DepartmentWithEmployees) {
+            DepartmentWithEmployees dwe = (DepartmentWithEmployees) t;
+            Department d = dwe.getDepartment();
+            holder.name.setText(d.getName());
+            holder.department.setVisibility(View.GONE);
+//            holder.hireDate.setText(dwe.getEmployeeListSize());
+            holder.contract.setVisibility(View.GONE);
+            holder.imageView.setImageResource(R.drawable.ic_departments);
+            holder.departmentView = true;
         }
         Log.d(TAG, "onBindViewHolder: none");
     }
@@ -106,12 +116,12 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewAda
 
         @Override
         public void onClick(View v) {
-            onEmployeeClickListener.onEmployeeClick(getAdapterPosition());
+            onItemClickListener.onItemClick(getAdapterPosition());
         }
     }
 
-    public interface OnEmployeeClickListener {
-        void onEmployeeClick(int position);
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 }
 

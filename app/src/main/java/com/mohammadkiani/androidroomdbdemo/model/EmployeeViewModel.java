@@ -33,6 +33,8 @@ public class EmployeeViewModel extends AndroidViewModel {
 
     public void insert(Department department, Employee employee) {repository.insert(department, employee);}
 
+    public long insert(Department department) {repository.insert(department); return department.getId();}
+
     public void update(Employee employee) {repository.update(employee);}
 
     public void delete(Employee employee) {repository.delete(employee);}
@@ -42,4 +44,6 @@ public class EmployeeViewModel extends AndroidViewModel {
     public void updateEmployeeInDepartment(Department department, Employee employee) {repository.updateEmployeeInDepartment(department, employee);}
 
     public void delete(Department department) {repository.delete(department);}
+
+    public LiveData<List<Department>> getAllDepartments() {return repository.getAllDepartments();}
 }
