@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +18,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,13 +32,10 @@ import com.mohammadkiani.androidroomdbdemo.model.EmployeeViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 //import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -60,7 +57,7 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
 
     private Employee deletedEmployee;
 
-    private boolean departmentMenuSelected;
+    private boolean departmentMenuSelected, gridViewSelected;
 
     private HashMap<Integer, String> menuList;
 
@@ -83,7 +80,7 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee);
 
-        menuList = new HashMap<Integer, String>() {{
+        /*menuList = new HashMap<Integer, String>() {{
             put(R.id.technical_menu_item, "Technical");
             put(R.id.support_menu_item, "Support");
             put(R.id.rd_menu_item, "Research and Development");
@@ -94,7 +91,9 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
             put(R.id.it_menu_item, "IT");
             put(R.id.human_resource_menu_item, "Human Resource");
 
-        }};
+        }};*/
+
+        gridViewSelected = false;
 
         // instantiating the employeeViewModel
         employeeViewModel = new ViewModelProvider.AndroidViewModelFactory(this.getApplication())
@@ -236,7 +235,19 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
             /*departmentMenuSelected = !departmentMenuSelected;
             updateUI();*/
             finish();
-        } else if (menuItemId == R.id.department_list_menu_item) {
+        } else {
+            gridViewSelected = !gridViewSelected;
+            recyclerViewAdapter.setGridSelected(gridViewSelected);
+            if (gridViewSelected) {
+                item.setIcon(R.drawable.ic_list);
+                recyclerView.setLayoutManager(new GridLayoutManager(this, 2, RecyclerView.VERTICAL, false));
+            } else {
+                item.setIcon(R.drawable.ic_grid);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+            }
+        }
+
+        /*else if (menuItemId == R.id.department_list_menu_item) {
             Toast.makeText(this, "Employees by Department", Toast.LENGTH_SHORT).show();
         } else {
             List<Employee> employees = Objects.requireNonNull(employeeViewModel.getDepartmentsWithEmployeesList().getValue()).stream().flatMap(e -> e.employeeList.stream()).collect(Collectors.toList());
@@ -245,7 +256,7 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
                     .collect(Collectors.toList());
             RecyclerViewAdapter employeeAdapter = new RecyclerViewAdapter(difference, this, this);
             recyclerView.setAdapter(employeeAdapter);
-        }
+        }*/
         return true;
     }
 

@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,7 +60,8 @@ public class FirstFragment extends Fragment implements RecyclerViewAdapter.OnIte
 
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         binding.recyclerView.setHasFixedSize(true);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2, RecyclerView.VERTICAL,false));
         binding.recyclerView.setAdapter(adapter);
         return binding.getRoot();
 
@@ -73,7 +75,10 @@ public class FirstFragment extends Fragment implements RecyclerViewAdapter.OnIte
 
             departments.clear();
             departments.addAll(departmentsWithEmployees);
-//            departments.addAll(departmentsWithEmployees.stream().map(d -> d.department).collect(Collectors.toList()));
+            departmentsWithEmployees.forEach(departmentWithEmployees -> {
+                if (departmentWithEmployees.getEmployeeListSize() == 0)
+                    delete(departmentWithEmployees);
+            });
             // update UI
             adapter.notifyDataSetChanged();
         });
@@ -85,6 +90,10 @@ public class FirstFragment extends Fragment implements RecyclerViewAdapter.OnIte
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
             }
         });
+    }
+
+    private void delete(DepartmentWithEmployees departmentWithEmployees) {
+        employeeViewModel.delete(departmentWithEmployees.department);
     }
 
     @Override

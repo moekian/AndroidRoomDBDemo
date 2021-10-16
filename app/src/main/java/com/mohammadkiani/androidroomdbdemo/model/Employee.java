@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
@@ -13,11 +14,11 @@ import static androidx.room.ForeignKey.NO_ACTION;
 // this is our entity in Room db
 @Entity(
         tableName = "employee_table",
+        indices = {@Index("department_name")},
         foreignKeys = @ForeignKey(entity = Department.class,
         parentColumns = "name",
         childColumns = "department_name",
-        onDelete = CASCADE,
-        onUpdate = NO_ACTION)
+        onDelete = CASCADE)
 )
 public class Employee {
     @PrimaryKey(autoGenerate = true)

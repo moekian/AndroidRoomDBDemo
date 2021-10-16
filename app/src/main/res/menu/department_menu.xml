@@ -7,7 +7,12 @@
         android:title="Departments"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/department_list_menu_item"
+    <item android:id="@+id/grid_view_item"
+        android:icon="@drawable/ic_grid"
+        android:title="Grid View"
+        app:showAsAction="ifRoom"/>
+
+    <!--<item android:id="@+id/department_list_menu_item"
         android:title="Employees by Departments"
         app:showAsAction="never">
 
@@ -40,6 +45,6 @@
                 android:title="Human Resource"
                 app:showAsAction="never"/>
         </menu>
-    </item>
+    </item>-->
 
 </menu>

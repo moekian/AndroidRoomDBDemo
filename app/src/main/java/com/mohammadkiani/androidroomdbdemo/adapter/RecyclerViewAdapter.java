@@ -26,6 +26,12 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewAda
     private List<T> tList;
     private Context context;
     private OnItemClickListener onItemClickListener;
+    private boolean isGridSelected;
+    public void setGridSelected(boolean gridSelected) {
+        isGridSelected = gridSelected;
+    }
+
+
 
     public RecyclerViewAdapter(List<T> tList, Context context, OnItemClickListener onItemClickListener) {
         this.tList = tList;
@@ -51,7 +57,11 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewAda
             holder.hireDate.setText(e.getJoiningDate());
             holder.contract.setText(e.getContract());
             holder.department.setVisibility(View.VISIBLE);
-            holder.hireDate.setVisibility(View.VISIBLE);
+            if (isGridSelected) {
+                holder.hireDate.setVisibility(View.GONE);
+            } else {
+                holder.hireDate.setVisibility(View.VISIBLE);
+            }
             holder.contract.setVisibility(View.VISIBLE);
             holder.imageView.setVisibility(View.VISIBLE);
             holder.departmentView = false;
@@ -69,8 +79,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewAda
             DepartmentWithEmployees dwe = (DepartmentWithEmployees) t;
             Department d = dwe.getDepartment();
             holder.name.setText(d.getName());
-            holder.department.setVisibility(View.GONE);
-//            holder.hireDate.setText(dwe.getEmployeeListSize());
+            holder.department.setText(String.format("%s Employees", String.valueOf(dwe.getEmployeeListSize())));
+            holder.hireDate.setVisibility(View.GONE);
             holder.contract.setVisibility(View.GONE);
             holder.imageView.setImageResource(R.drawable.ic_departments);
             holder.departmentView = true;
