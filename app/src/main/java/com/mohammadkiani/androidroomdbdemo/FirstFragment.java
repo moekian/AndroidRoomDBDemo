@@ -41,18 +41,12 @@ public class FirstFragment extends Fragment implements RecyclerViewAdapter.OnIte
     private RecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     private List<DepartmentWithEmployees> departments = new ArrayList<>();
-    // declaration of employeeViewModel
-    private EmployeeViewModel employeeViewModel;
 
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        // instantiating the employeeViewModel
-        employeeViewModel = new ViewModelProvider.AndroidViewModelFactory(this.getActivity().getApplication())
-                .create(EmployeeViewModel.class);
-
         /*recyclerView = getView().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));*/
@@ -69,20 +63,6 @@ public class FirstFragment extends Fragment implements RecyclerViewAdapter.OnIte
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        employeeViewModel.getDepartmentsWithEmployeesList().observe(getActivity(), departmentsWithEmployees -> {
-            Toast.makeText(getActivity(), "Data Set changed", Toast.LENGTH_SHORT).show();
-
-            departments.clear();
-            departments.addAll(departmentsWithEmployees);
-            departmentsWithEmployees.forEach(departmentWithEmployees -> {
-                if (departmentWithEmployees.getEmployeeListSize() == 0)
-                    delete(departmentWithEmployees);
-            });
-            // update UI
-            adapter.notifyDataSetChanged();
-        });
-
         binding.fabDepartment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,15 +72,21 @@ public class FirstFragment extends Fragment implements RecyclerViewAdapter.OnIte
         });
     }
 
-    private void delete(DepartmentWithEmployees departmentWithEmployees) {
-        employeeViewModel.delete(departmentWithEmployees.department);
+    void setDataSource(List<DepartmentWithEmployees> departmentsWithEmployees) {
+        departments.clear();
+        departments.addAll(departmentsWithEmployees);
+        // update UI
+        adapter.notifyDataSetChanged();
     }
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        Log.d("TAG", "onDestroyView: ");
     }
+
 
     @Override
     public void onItemClick(int position) {

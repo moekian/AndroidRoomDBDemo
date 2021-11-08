@@ -138,7 +138,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Employee added", Toast.LENGTH_SHORT).show();
         }
-
         finish();
     }
 }

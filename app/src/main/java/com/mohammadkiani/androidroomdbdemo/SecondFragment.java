@@ -52,8 +52,9 @@ public class SecondFragment extends Fragment {
                 String location = binding.etLocation.getText().toString().trim();
                 Department department = new Department(name, location);
                 employeeViewModel.insert(department);
-                NavHostFragment.findNavController(SecondFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
+                getParentFragmentManager().popBackStack();
+//                NavHostFragment.findNavController(SecondFragment.this)
+//                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
             }
         });
     }
