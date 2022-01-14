@@ -33,6 +33,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+/**
+ * @author Mohammad Kiani */
+
 public class FirstFragment extends Fragment implements RecyclerViewAdapter.OnItemClickListener {
 
     public static final String DEPT_NAME = "department_name";

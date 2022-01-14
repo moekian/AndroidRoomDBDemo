@@ -37,6 +37,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * @author Mohammad Kiani */
+
 //import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerViewAdapter.OnItemClickListener{

@@ -6,6 +6,9 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+/**
+ * @author Mohammad Kiani */
+
 @Entity(tableName = "department_table")
 public class Department {
 

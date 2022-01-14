@@ -11,6 +11,9 @@ import androidx.room.PrimaryKey;
 import static androidx.room.ForeignKey.CASCADE;
 import static androidx.room.ForeignKey.NO_ACTION;
 
+/**
+ * @author Mohammad Kiani */
+
 // this is our entity in Room db
 @Entity(
         tableName = "employee_table",

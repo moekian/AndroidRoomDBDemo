@@ -5,6 +5,9 @@ import androidx.room.Relation;
 
 import java.util.List;
 
+/**
+ * @author Mohammad Kiani */
+
 public class DepartmentWithEmployees {
     @Embedded public Department department;
     @Relation(

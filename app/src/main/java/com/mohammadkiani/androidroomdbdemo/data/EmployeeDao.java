@@ -18,6 +18,9 @@ import com.mohammadkiani.androidroomdbdemo.model.Employee;
 
 import java.util.List;
 
+/**
+ * @author Mohammad Kiani */
+
 @Dao
 public abstract class EmployeeDao {
 

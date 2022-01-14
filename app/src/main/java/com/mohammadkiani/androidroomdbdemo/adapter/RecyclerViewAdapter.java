@@ -20,6 +20,9 @@ import com.mohammadkiani.androidroomdbdemo.model.Employee;
 
 import java.util.List;
 
+/**
+ * @author Mohammad Kiani */
+
 public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewAdapter<T>.ViewHolder> {
     private static final String TAG = "Cannot invoke method length() on null object";
 

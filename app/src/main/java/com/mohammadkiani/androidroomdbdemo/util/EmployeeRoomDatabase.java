@@ -15,6 +15,9 @@ import com.mohammadkiani.androidroomdbdemo.model.Employee;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * @author Mohammad Kiani */
+
 @Database(entities = {Employee.class, Department.class}, version = 1, exportSchema = false)
 public abstract class EmployeeRoomDatabase extends RoomDatabase {
     public abstract EmployeeDao employeeDao();

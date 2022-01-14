@@ -10,6 +10,9 @@ import com.mohammadkiani.androidroomdbdemo.data.EmployeeRepository;
 
 import java.util.List;
 
+/**
+ * @author Mohammad Kiani */
+
 public class EmployeeViewModel extends AndroidViewModel {
     private EmployeeRepository repository;
     private final LiveData<List<Employee>> allEmployees;

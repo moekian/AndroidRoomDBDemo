@@ -22,6 +22,9 @@ import com.mohammadkiani.androidroomdbdemo.databinding.ActivityDepartmentBinding
 import com.mohammadkiani.androidroomdbdemo.model.DepartmentWithEmployees;
 import com.mohammadkiani.androidroomdbdemo.model.EmployeeViewModel;
 
+/**
+ * @author Mohammad Kiani */
+
 public class DepartmentActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;

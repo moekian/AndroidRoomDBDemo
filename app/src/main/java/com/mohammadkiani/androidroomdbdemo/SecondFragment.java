@@ -16,6 +16,9 @@ import com.mohammadkiani.androidroomdbdemo.databinding.FragmentSecondBinding;
 import com.mohammadkiani.androidroomdbdemo.model.Department;
 import com.mohammadkiani.androidroomdbdemo.model.EmployeeViewModel;
 
+/**
+ * @author Mohammad Kiani */
+
 public class SecondFragment extends Fragment {
 
     private static final String DEPT_NAME_REPLY = "department_name";
