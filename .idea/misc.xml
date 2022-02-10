@@ -8,15 +8,15 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.3536458333333333" />
         <entry key="app/src/main/res/drawable/ic_person.xml" value="0.3536458333333333" />
         <entry key="app/src/main/res/drawable/ic_update_white.xml" value="0.3536458333333333" />
-        <entry key="app/src/main/res/layout/activity_add_employee.xml" value="0.3375" />
-        <entry key="app/src/main/res/layout/activity_department.xml" value="0.5635416666666667" />
+        <entry key="app/src/main/res/layout/activity_add_employee.xml" value="0.32056732177734376" />
+        <entry key="app/src/main/res/layout/activity_department.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_employee.xml" value="0.5635416666666667" />
         <entry key="app/src/main/res/layout/content_department.xml" value="0.5635416666666667" />
-        <entry key="app/src/main/res/layout/content_employee.xml" value="0.3197463768115942" />
-        <entry key="app/src/main/res/layout/employee_row.xml" value="0.3375" />
-        <entry key="app/src/main/res/layout/fragment_first.xml" value="0.5635416666666667" />
-        <entry key="app/src/main/res/layout/fragment_second.xml" value="0.5635416666666667" />
-        <entry key="app/src/main/res/menu/department_menu.xml" value="0.4925925925925926" />
+        <entry key="app/src/main/res/layout/content_employee.xml" value="0.38594360351562507" />
+        <entry key="app/src/main/res/layout/employee_row.xml" value="0.40261077880859375" />
+        <entry key="app/src/main/res/layout/fragment_first.xml" value="0.2816935221354167" />
+        <entry key="app/src/main/res/layout/fragment_second.xml" value="0.335" />
+        <entry key="app/src/main/res/menu/department_menu.xml" value="0.1" />
       </map>
     </option>
   </component>

@@ -14,7 +14,11 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.mohammadkiani.androidroomdbdemo.databinding.FragmentSecondBinding;
 import com.mohammadkiani.androidroomdbdemo.model.Department;
+import com.mohammadkiani.androidroomdbdemo.model.DepartmentWithEmployees;
 import com.mohammadkiani.androidroomdbdemo.model.EmployeeViewModel;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class SecondFragment extends Fragment {
 
@@ -52,7 +56,8 @@ public class SecondFragment extends Fragment {
                 String location = binding.etLocation.getText().toString().trim();
                 Department department = new Department(name, location);
                 employeeViewModel.insert(department);
-                getParentFragmentManager().popBackStack();
+                NavHostFragment.findNavController(SecondFragment.this)
+                        .popBackStack();
 //                NavHostFragment.findNavController(SecondFragment.this)
 //                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
             }

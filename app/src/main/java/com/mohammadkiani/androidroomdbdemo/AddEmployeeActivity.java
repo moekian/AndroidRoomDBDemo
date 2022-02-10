@@ -114,7 +114,8 @@ public class AddEmployeeActivity extends AppCompatActivity {
 
             dept.setId(employeeTobeUpdated.getDepartmentId());
             dept.setName(department);
-            employee.setId(employeeTobeUpdated.getId());
+//            employee.setId(employeeTobeUpdated.getId());
+            long id = employeeTobeUpdated.getId();
             employee.setName(name);
             employee.setDepartmentName(department);
             employee.setJoiningDate(employeeTobeUpdated.getJoiningDate());
@@ -122,11 +123,15 @@ public class AddEmployeeActivity extends AppCompatActivity {
             employee.setContract(contract);
             employee.setDepartmentId(employeeTobeUpdated.getDepartmentId());
             if (!departments.stream().map(Department::getName).collect(Collectors.toList()).contains(department)) {
-                Department d = new Department(department, null);
-                employeeViewModel.insert(d);
-                employee.setDepartmentName(department);
-                employeeViewModel.update(employee);
+//                Department d = new Department(department, null);
+//                employeeViewModel.insert(d);
+//                employee.setDepartmentName(department);
+//                employeeViewModel.update(employee);
+                employeeViewModel.delete(employeeTobeUpdated);
+                employee.setId(id);
+                employeeViewModel.insert(dept, employee);
             } else
+                employee.setId(id);
                 employeeViewModel.updateEmployeeInDepartment(dept, employee);
         } else {
             Intent replyIntent = new Intent();

@@ -18,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.mohammadkiani.androidroomdbdemo.adapter.RecyclerViewAdapter;
 import com.mohammadkiani.androidroomdbdemo.databinding.FragmentFirstBinding;
@@ -39,7 +40,7 @@ public class FirstFragment extends Fragment implements RecyclerViewAdapter.OnIte
     private FragmentFirstBinding binding;
 
     private RecyclerViewAdapter adapter;
-    private RecyclerView recyclerView;
+//    private RecyclerView recyclerView;
     private List<DepartmentWithEmployees> departments = new ArrayList<>();
 
     @Override
@@ -47,14 +48,10 @@ public class FirstFragment extends Fragment implements RecyclerViewAdapter.OnIte
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        /*recyclerView = getView().findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));*/
         adapter = new RecyclerViewAdapter(departments, getContext(), this);
 
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         binding.recyclerView.setHasFixedSize(true);
-//        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2, RecyclerView.VERTICAL,false));
         binding.recyclerView.setAdapter(adapter);
         return binding.getRoot();
@@ -77,6 +74,7 @@ public class FirstFragment extends Fragment implements RecyclerViewAdapter.OnIte
         departments.addAll(departmentsWithEmployees);
         // update UI
         adapter.notifyDataSetChanged();
+        Log.d("set source", "setDataSource: ");
     }
 
 

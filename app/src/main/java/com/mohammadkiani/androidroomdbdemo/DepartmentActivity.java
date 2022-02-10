@@ -48,13 +48,6 @@ public class DepartmentActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-//        binding.fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     @Override
@@ -68,21 +61,6 @@ public class DepartmentActivity extends AppCompatActivity {
             firstFragment.setDataSource(departmentsWithEmployees);
         });
     }
-/*
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        employeeViewModel.getDepartmentsWithEmployeesList().getValue().forEach(departmentWithEmployees -> {
-            if (departmentWithEmployees.getEmployeeListSize() == 0) {
-                delete(departmentWithEmployees);
-            }
-            Log.d("TAG", "onRestart: " + departmentWithEmployees.getEmployeeListSize());
-        });
-    }
-
-    private void delete(DepartmentWithEmployees departmentWithEmployees) {
-        employeeViewModel.delete(departmentWithEmployees.department);
-    }*/
 
     @Override
     public boolean onSupportNavigateUp() {
