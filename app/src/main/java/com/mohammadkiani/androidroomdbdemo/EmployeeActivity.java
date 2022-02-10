@@ -64,12 +64,6 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
     private List<Department> departments = new ArrayList<>();
     private List<Employee> employeesList;
 
-    /*public enum State {
-        DATA_INITIAL, DATA_INSERTED, DATA_UPDATED, DATA_DELETED, DATA_CHANGED
-    }
-    public static State state;*/
-//    private int editingEmployeePosition, deletingEmployeePosition;
-
     private int menuItemId;
     private String deptName;
 
@@ -79,19 +73,6 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee);
-
-        /*menuList = new HashMap<Integer, String>() {{
-            put(R.id.technical_menu_item, "Technical");
-            put(R.id.support_menu_item, "Support");
-            put(R.id.rd_menu_item, "Research and Development");
-            put(R.id.marketing_menu_item, "Marketing");
-            put(R.id.engineering_menu_item, "Engineering");
-            put(R.id.testing_menu_item, "Testing");
-            put(R.id.development_menu_item, "Development");
-            put(R.id.it_menu_item, "IT");
-            put(R.id.human_resource_menu_item, "Human Resource");
-
-        }};*/
 
         gridViewSelected = false;
 
@@ -103,24 +84,8 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-//        employeeViewModel.getAllEmployees().observe(this, employees -> {
-            // set adapter
-//            recyclerViewAdapter = new RecyclerViewAdapter(employees, this, this);
-//            recyclerView.setAdapter(recyclerViewAdapter);
-//        });
-
         departmentWithEmployeesList = new ArrayList<>();
         employeesList = new ArrayList<>();
-
-        /*employeeViewModel.getDepartmentsWithEmployeesList().observe(this, departmentsWithEmployees -> {
-            Toast.makeText(this, "Data Set changed", Toast.LENGTH_SHORT).show();
-            departmentWithEmployeesList = departmentsWithEmployees;
-            employeesList.clear();
-            employeesList.addAll(departmentsWithEmployees.stream().flatMap(e -> e.employeeList.stream()).collect(Collectors.toList()));
-            Log.d(TAG, "onCreate: " + employeesList.size());
-            // update UI
-            updateUI();
-        });*/
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
@@ -190,10 +155,6 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
             employeesList.addAll(employees);
             updateUI();
         });
-
-        // attach the itemTouchHelper to my recyclerView
-        /*ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);*/
     }
 
     @Override
@@ -204,18 +165,6 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
     }
 
     private void updateUI() {
-        /*if (departmentMenuSelected) {
-            departments.clear();
-            departmentWithEmployeesList.stream().map(d -> d.department).collect(Collectors.toList())
-                    .stream().collect(Collectors.groupingBy(Department::getName)).values().stream().forEach(element -> departments.add(element.get(0)));
-            deptAdapter = new RecyclerViewAdapter(departments, this, this);
-            recyclerView.setAdapter(deptAdapter);
-            Toast.makeText(this,"Departments Menu Selected", Toast.LENGTH_SHORT).show();
-        } else {
-            recyclerView.setAdapter(recyclerViewAdapter);
-            recyclerViewAdapter.notifyDataSetChanged();
-            Toast.makeText(this, "Employees Menu Selected", Toast.LENGTH_SHORT).show();
-        }*/
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.notifyDataSetChanged();
         Toast.makeText(this, "Employees Menu Selected", Toast.LENGTH_SHORT).show();
@@ -232,8 +181,6 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         menuItemId = item.getItemId();
         if (menuItemId == R.id.department_menu_item) {
-            /*departmentMenuSelected = !departmentMenuSelected;
-            updateUI();*/
             finish();
         } else {
             gridViewSelected = !gridViewSelected;
@@ -246,77 +193,9 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
                 recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
             }
         }
-
-        /*else if (menuItemId == R.id.department_list_menu_item) {
-            Toast.makeText(this, "Employees by Department", Toast.LENGTH_SHORT).show();
-        } else {
-            List<Employee> employees = Objects.requireNonNull(employeeViewModel.getDepartmentsWithEmployeesList().getValue()).stream().flatMap(e -> e.employeeList.stream()).collect(Collectors.toList());
-            List<Employee> difference = employees.stream()
-                    .filter(employee -> employee.getDepartmentName().equals(menuList.get(menuItemId)))
-                    .collect(Collectors.toList());
-            RecyclerViewAdapter employeeAdapter = new RecyclerViewAdapter(difference, this, this);
-            recyclerView.setAdapter(employeeAdapter);
-        }*/
         return true;
     }
 
-    /*
-                ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-
-                    @Override
-                    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                        return false;
-                    }
-
-                    @Override
-                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                        int position = viewHolder.getAdapterPosition();
-                        Employee employee = employeeViewModel.getAllEmployees().getValue().get(position);
-                        switch (direction) {
-                            case ItemTouchHelper.LEFT:
-                                deleteEmployee(position);
-                                break;
-                            case ItemTouchHelper.RIGHT:
-                                Intent intent = new Intent(MainActivity.this, AddEmployeeActivity.class);
-                                intent.putExtra(EMPLOYEE_ID, employee.getId());
-                                startActivity(intent);
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                        new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                                .setIconHorizontalMargin(1, 1)
-                                .addSwipeLeftActionIcon(R.drawable.ic_delete)
-                                .addSwipeRightActionIcon(R.drawable.ic_update_white)
-                                .create()
-                                .decorate();
-                        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-                    }
-                };
-            */
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADD_EMPLOYEE_REQUEST_CODE && resultCode == RESULT_OK) {
-            Log.d(TAG, "onActivityResult: " + data.getStringExtra(AddEmployeeActivity.NAME_REPLY));
-
-            String name = data.getStringExtra(AddEmployeeActivity.NAME_REPLY);
-            String salary = data.getStringExtra(AddEmployeeActivity.SALARY_REPLY);
-            String department = data.getStringExtra(AddEmployeeActivity.DEPARTMENT_REPLY);
-            // getting the current date
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
-            String joiningDate = sdf.format(cal.getTime());
-
-            Employee employee = new Employee(name, department, joiningDate, Double.parseDouble(salary));
-            employeeViewModel.insert(employee);
-
-        }
-    }
-*/
     // the following approach instead of onActivityResult as startActivityForResult is deprecated
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -372,11 +251,6 @@ public class EmployeeActivity<T> extends AppCompatActivity implements RecyclerVi
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
-    /*private void deleteDepartment(int position) {
-        employeeViewModel.delete(departments.get(position));
-        departments.remove(position);
-    }*/
 }
 
 

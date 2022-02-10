@@ -51,8 +51,6 @@ public abstract class EmployeeRoomDatabase extends RoomDatabase {
                         EmployeeDao employeeDao = INSTANCE.employeeDao();
                         employeeDao.deleteAll();
 
-//                        Employee employee = new Employee("Mo", "cs", "", 1111);
-//                        employeeDao.insert(employee);
                     });
                 }
             };

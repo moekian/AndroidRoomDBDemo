@@ -31,8 +31,6 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewAda
         isGridSelected = gridSelected;
     }
 
-
-
     public RecyclerViewAdapter(List<T> tList, Context context, OnItemClickListener onItemClickListener) {
         this.tList = tList;
         this.context = context;
@@ -92,12 +90,6 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewAda
     public int getItemCount() {
         return tList.size();
     }
-
-    /*public void updateItems(List<T> data) {
-        tList.clear();
-        tList.addAll(data);
-        notifyDataSetChanged();
-    }*/
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView name;

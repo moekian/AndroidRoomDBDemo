@@ -123,10 +123,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
             employee.setContract(contract);
             employee.setDepartmentId(employeeTobeUpdated.getDepartmentId());
             if (!departments.stream().map(Department::getName).collect(Collectors.toList()).contains(department)) {
-//                Department d = new Department(department, null);
-//                employeeViewModel.insert(d);
-//                employee.setDepartmentName(department);
-//                employeeViewModel.update(employee);
                 employeeViewModel.delete(employeeTobeUpdated);
                 employee.setId(id);
                 employeeViewModel.insert(dept, employee);
